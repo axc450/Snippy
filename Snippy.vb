@@ -31,8 +31,8 @@ Public Class Snippy
     End Sub
 
     Public Sub takeScreenshot(X As Integer, Y As Integer, W As Integer, H As Integer)
-        Dim s As New Size(W, Y)
-        Dim ss As New Bitmap(W, Y)
+        Dim s As New Size(W, H)
+        Dim ss As New Bitmap(W, H)
         Dim g As Graphics = Graphics.FromImage(ss)
         g.CopyFromScreen(New Point(X, Y), New Point(0, 0), s)
         Clipboard.SetDataObject(ss, True)
