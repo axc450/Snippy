@@ -32,6 +32,23 @@
     Private Sub Sinppy_Overaly_MouseUp(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseUp
         isDrawing = False
         Me.Close()
+
+        Dim X As Integer = beginX
+        Dim Y As Integer = beginY
+        Dim W As Integer = endX - beginX
+        Dim H As Integer = endY - beginY
+
+        If (endX < beginX) Then
+            X = endX
+            W = beginX - endX
+        End If
+
+        If (endY < beginY) Then
+            Y = endY
+            H = beginY - endY
+        End If
+
+        Snippy.takeScreenshot(X, Y, W, H)
     End Sub
 
     Private Sub Sinppy_Overaly_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
