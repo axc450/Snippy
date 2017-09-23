@@ -3,6 +3,7 @@
 Public Class Snippy
     Public Const MOD_ALT As Integer = &H1
     Public Const WM_HOTKEY As Integer = &H312
+    Dim overlay As Snippy_Overlay = New Snippy_Overlay()
 
     <DllImport("User32.dll")>
     Public Shared Function RegisterHotKey(ByVal hwnd As IntPtr, ByVal id As Integer, ByVal fsModifiers As Integer, ByVal vk As Integer) As Integer
@@ -14,10 +15,15 @@ Public Class Snippy
 
     Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
         If m.Msg = WM_HOTKEY Then
-            MsgBox("Alt+4 Pressed!")
-        End If
+            If (overlay.IsDisposed) Then
+                overlay = New Snippy_Overlay()
+            End If
+            overlay.Show()
+                overlay.Focus()
+                overlay.BringToFront()
+            End If
 
-        MyBase.WndProc(m)
+            MyBase.WndProc(m)
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
