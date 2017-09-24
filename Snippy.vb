@@ -4,6 +4,7 @@ Public Class Snippy
     Public Const MOD_ALT As Integer = &H1
     Public Const WM_HOTKEY As Integer = &H312
     Dim cb As Boolean = True
+    Dim localSave As Boolean = False
     Dim overlay As Snippy_Overlay = New Snippy_Overlay()
 
     <DllImport("User32.dll")>
@@ -36,13 +37,17 @@ Public Class Snippy
     End Sub
 
     Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
-        Dim cb As Boolean = True
+        cb = True
         ToolStripMenuItem1.Checked = False
     End Sub
 
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
-        Dim cb As Boolean = False
+        cb = False
         ToolStripMenuItem2.Checked = False
+    End Sub
+
+    Private Sub ToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem4.Click
+        localSave = Not localSave
     End Sub
 
     Public Sub takeScreenshot(X As Integer, Y As Integer, W As Integer, H As Integer)
