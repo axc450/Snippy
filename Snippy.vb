@@ -3,6 +3,7 @@
 Public Class Snippy
     Public Const MOD_ALT As Integer = &H1
     Public Const WM_HOTKEY As Integer = &H312
+    Dim cb As Boolean = True
     Dim overlay As Snippy_Overlay = New Snippy_Overlay()
 
     <DllImport("User32.dll")>
@@ -11,6 +12,10 @@ Public Class Snippy
 
     Private Sub Snippy_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         RegisterHotKey(Me.Handle, 1, MOD_ALT, Keys.D4)
+
+        Dim header As ToolStripLabel = New ToolStripLabel("Snippy")
+        header.Enabled = False
+        ContextMenuStrip1.Items.Insert(0, header)
     End Sub
 
     Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
@@ -28,6 +33,16 @@ Public Class Snippy
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
         Me.Close()
+    End Sub
+
+    Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
+        Dim cb As Boolean = True
+        ToolStripMenuItem1.Checked = False
+    End Sub
+
+    Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
+        Dim cb As Boolean = False
+        ToolStripMenuItem2.Checked = False
     End Sub
 
     Public Sub takeScreenshot(X As Integer, Y As Integer, W As Integer, H As Integer)
