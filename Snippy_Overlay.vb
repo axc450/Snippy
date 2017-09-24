@@ -5,8 +5,8 @@
     Dim beginY As Integer = 0
     Dim endX As Integer = 0
     Dim endY As Integer = 0
-    Dim b As SolidBrush = New SolidBrush(Color.Black)
-    Dim p As Pen = New Pen(Color.Red, 5)
+    Dim b As SolidBrush = New SolidBrush(Color.Yellow)
+    Dim p As Pen = New Pen(Color.Red, 3)
 
 
     Private Sub Snippy_Overlay_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
