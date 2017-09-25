@@ -1,4 +1,4 @@
-# Snippy
+# ![Snippy Logo](https://i.imgur.com/ogslEmX.png) Snippy
 
 Lightweight Custom Screenshot Tool [Windows]
 
