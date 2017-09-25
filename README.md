@@ -38,3 +38,7 @@ You can now selected a region of your screen to screenshot.
 	This readme file
 - `Snippy.exe`	
 	The Snippy application
+
+## Credits
+
+Scissors Icon - Freepik _http://www.freepik.com_
