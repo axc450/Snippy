@@ -4,7 +4,7 @@ Lightweight Custom Screenshot Tool [Windows]
 
 ## About
 
-A simple to use, leightweight Windows tray application that allows fast and accurate screenshotting. By using a keyboard command, you can easily select a region of your current screen which you can choose to be copied to the clipboard, saved locally oe uploaded to an external image service.
+A simple to use, leightweight Windows tray application that allows fast and accurate screenshotting. By using a keyboard command, you can easily select a region of your current screen which you can choose to be copied to the clipboard, saved locally or uploaded to an external image service.
 
 
 ## Getting Started
