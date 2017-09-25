@@ -19,6 +19,9 @@ You can now selected a region of your screen to screenshot.
 
 ## Options
 
+
+| Option		 | Description								  |
+| ---------------------- | ---------------------------------------------------------------------- |
 | Add to Windows Startup | Creates a copy of the Snippy application in the Windows Startup folder |
 | Save Image Locally     | Screenshots will be saved as a local file                              |
 | Clipboard              | Screenshots will be copied to the clipboard                            |
