@@ -55,6 +55,16 @@ Public Class Snippy
         Dim ss As New Bitmap(W, H)
         Dim g As Graphics = Graphics.FromImage(ss)
         g.CopyFromScreen(New Point(X, Y), New Point(0, 0), s)
+
         Clipboard.SetDataObject(ss, True)
+    End Sub
+
+    Private Sub ToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem3.Click
+        Try
+            IO.File.Copy(Application.ExecutablePath, Environment.GetFolderPath(Environment.SpecialFolder.Startup) & "/Snippy.exe")
+            MsgBox("Snippy will automatically start when you log on!", vbInformation)
+        Catch ex As Exception
+            MsgBox("Could not add Snippy to the startup programs!", vbCritical)
+        End Try
     End Sub
 End Class
