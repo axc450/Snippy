@@ -9,13 +9,14 @@ A simple to use, leightweight Windows tray application that allows fast and accu
 
 ## Getting Started
 
-Once the "Snippy.exe" file has been opened, it will run in the system tray as a background process. To take a screenshot press the following key combination.
+Once the "Snippy.exe" file has been opened, it will run in the system tray as a background process. 
+To take a screenshot press the following key combination.
 
 ```
 ALT + 4
 ```
 
-You can now selected a region of your screen to screenshot.
+You can now select a region of your screen to screenshot.
 
 ## Options
 
