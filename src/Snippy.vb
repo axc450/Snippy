@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.InteropServices
+Imports System.Net
 
 Public Class Snippy
     Public Const MOD_ALT As Integer = &H1
@@ -38,16 +39,27 @@ Public Class Snippy
 
     Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
         cb = True
+        ToolStripMenuItem2.Checked = True
         ToolStripMenuItem1.Checked = False
     End Sub
 
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
         cb = False
         ToolStripMenuItem2.Checked = False
+        ToolStripMenuItem1.Checked = True
     End Sub
 
     Private Sub ToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem4.Click
         localSave = Not localSave
+    End Sub
+
+    Private Sub ToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem3.Click
+        Try
+            IO.File.Copy(Application.ExecutablePath, Environment.GetFolderPath(Environment.SpecialFolder.Startup) & "/Snippy.exe", True)
+            MsgBox("Snippy will automatically start when you log on!", vbInformation)
+        Catch ex As Exception
+            MsgBox("Could not add Snippy to the startup programs!", vbCritical)
+        End Try
     End Sub
 
     Public Sub takeScreenshot(X As Integer, Y As Integer, W As Integer, H As Integer)
@@ -56,15 +68,57 @@ Public Class Snippy
         Dim g As Graphics = Graphics.FromImage(ss)
         g.CopyFromScreen(New Point(X, Y), New Point(0, 0), s)
 
-        Clipboard.SetDataObject(ss, True)
+        If cb Then
+            Clipboard.SetDataObject(ss, True)
+        Else
+            upload(ss)
+        End If
+
     End Sub
 
-    Private Sub ToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem3.Click
+    Private Sub upload(ss As Bitmap)
+
+        Dim result As String = "[Snippy] Uploading your image..."
+        Clipboard.SetText(result)
+
         Try
-            IO.File.Copy(Application.ExecutablePath, Environment.GetFolderPath(Environment.SpecialFolder.Startup) & "/Snippy.exe")
-            MsgBox("Snippy will automatically start when you log on!", vbInformation)
+            Dim MS As System.IO.MemoryStream = New System.IO.MemoryStream()
+            ss.Save(MS, System.Drawing.Imaging.ImageFormat.Png)
+            Dim byteImage As Byte() = MS.ToArray()
+            Dim base64img As String = Convert.ToBase64String(byteImage)
+
+            Dim uploadRequestString As String = System.Web.HttpUtility.UrlEncode("image", System.Text.Encoding.UTF8) + "=" + base64img
+
+            Dim httpReq As HttpWebRequest = WebRequest.Create("https://api.imgur.com/3/upload")
+            httpReq.Headers.Add("Authorization", "Client-ID 4f2b6d0841fd112")
+            httpReq.Method = "POST"
+            httpReq.ContentType = "application/x-www-form-urlencoded"
+            httpReq.ContentLength = base64img.Length
+            httpReq.ServicePoint.Expect100Continue = False
+
+
+            Dim streamWriter As System.IO.StreamWriter = New System.IO.StreamWriter(httpReq.GetRequestStream())
+            streamWriter.Write(base64img, 0, base64img.Length)
+            streamWriter.Close()
+
+
+            Dim response As WebResponse = httpReq.GetResponse()
+            Dim responseStream As System.IO.Stream = response.GetResponseStream()
+            Dim responseReader As System.IO.StreamReader = New System.IO.StreamReader(responseStream)
+            Dim responseString As String = responseReader.ReadToEnd()
+
+            result = responseString.Remove(0, responseString.IndexOf("link") + 7)
+            result = result.Substring(0, result.IndexOf("success") - 4)
+            result = result.Replace("\/", "/")
+            responseStream.Close()
         Catch ex As Exception
-            MsgBox("Could not add Snippy to the startup programs!", vbCritical)
+            MsgBox("Your image could not be uploaded to imgur!", vbCritical)
+            result = "[Snippy] Your image could not be uploaded to imgur!"
         End Try
+
+
+        Clipboard.SetText(result)
+
     End Sub
+
 End Class
