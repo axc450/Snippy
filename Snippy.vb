@@ -77,37 +77,47 @@ Public Class Snippy
     End Sub
 
     Private Sub upload(ss As Bitmap)
-        Dim MS As System.IO.MemoryStream = New System.IO.MemoryStream()
-        ss.Save(MS, System.Drawing.Imaging.ImageFormat.Png)
-        Dim byteImage As Byte() = MS.ToArray()
-        Dim base64img As String = Convert.ToBase64String(byteImage)
 
-        Dim uploadRequestString As String = System.Web.HttpUtility.UrlEncode("image", System.Text.Encoding.UTF8) + "=" + base64img
+        Dim result As String = "[Snippy] Uploading your image..."
+        Clipboard.SetText(result)
 
-        Dim httpReq As HttpWebRequest = WebRequest.Create("https://api.imgur.com/3/upload")
-        httpReq.Headers.Add("Authorization", "Client-ID 4f2b6d0841fd112")
-        httpReq.Method = "POST"
-        httpReq.ContentType = "application/x-www-form-urlencoded"
-        httpReq.ContentLength = base64img.Length
-        httpReq.ServicePoint.Expect100Continue = False
+        Try
+            Dim MS As System.IO.MemoryStream = New System.IO.MemoryStream()
+            ss.Save(MS, System.Drawing.Imaging.ImageFormat.Png)
+            Dim byteImage As Byte() = MS.ToArray()
+            Dim base64img As String = Convert.ToBase64String(byteImage)
+
+            Dim uploadRequestString As String = System.Web.HttpUtility.UrlEncode("image", System.Text.Encoding.UTF8) + "=" + base64img
+
+            Dim httpReq As HttpWebRequest = WebRequest.Create("https://api.imgur.com/3/upload")
+            httpReq.Headers.Add("Authorization", "Client-ID 4f2b6d0841fd112")
+            httpReq.Method = "POST"
+            httpReq.ContentType = "application/x-www-form-urlencoded"
+            httpReq.ContentLength = base64img.Length
+            httpReq.ServicePoint.Expect100Continue = False
 
 
-        Dim streamWriter As System.IO.StreamWriter = New System.IO.StreamWriter(httpReq.GetRequestStream())
-        streamWriter.Write(base64img, 0, base64img.Length)
-        streamWriter.Close()
+            Dim streamWriter As System.IO.StreamWriter = New System.IO.StreamWriter(httpReq.GetRequestStream())
+            streamWriter.Write(base64img, 0, base64img.Length)
+            streamWriter.Close()
 
 
-        Dim response As WebResponse = httpReq.GetResponse()
-        Dim responseStream As System.IO.Stream = response.GetResponseStream()
-        Dim responseReader As System.IO.StreamReader = New System.IO.StreamReader(responseStream)
-        Dim responseString As String = responseReader.ReadToEnd()
+            Dim response As WebResponse = httpReq.GetResponse()
+            Dim responseStream As System.IO.Stream = response.GetResponseStream()
+            Dim responseReader As System.IO.StreamReader = New System.IO.StreamReader(responseStream)
+            Dim responseString As String = responseReader.ReadToEnd()
 
-        Dim img_url As String = responseString.Remove(0, responseString.IndexOf("link") + 7)
-        img_url = img_url.Substring(0, img_url.IndexOf("success") - 4)
-        img_url = img_url.Replace("\/", "/")
-        responseStream.Close()
+            result = responseString.Remove(0, responseString.IndexOf("link") + 7)
+            result = result.Substring(0, result.IndexOf("success") - 4)
+            result = result.Replace("\/", "/")
+            responseStream.Close()
+        Catch ex As Exception
+            MsgBox("Your image could not be uploaded to imgur!", vbCritical)
+            result = "[Snippy] Your image could not be uploaded to imgur!"
+        End Try
 
-        Clipboard.SetText(img_url)
+
+        Clipboard.SetText(result)
 
     End Sub
 
