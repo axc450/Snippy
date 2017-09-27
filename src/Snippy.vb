@@ -74,6 +74,10 @@ Public Class Snippy
             upload(ss)
         End If
 
+        If localSave Then
+            SaveFile(ss)
+        End If
+
     End Sub
 
     Private Sub upload(ss As Bitmap)
@@ -119,6 +123,16 @@ Public Class Snippy
 
         Clipboard.SetText(result)
 
+    End Sub
+
+    Private Sub saveFile(ss As Bitmap)
+        Dim path As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\Snippy Screenshots"
+
+        If (Not System.IO.Directory.Exists(path)) Then
+            System.IO.Directory.CreateDirectory(path)
+        End If
+
+        ss.Save(path & "\" & String.Format("{0:dd-MM-yyyy HH.mm.ss}", DateTime.Now) & ".png", System.Drawing.Imaging.ImageFormat.Png)
     End Sub
 
 End Class
