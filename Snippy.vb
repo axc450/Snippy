@@ -83,7 +83,6 @@ Public Class Snippy
         Dim base64img As String = Convert.ToBase64String(byteImage)
 
         Dim uploadRequestString As String = System.Web.HttpUtility.UrlEncode("image", System.Text.Encoding.UTF8) + "=" + base64img
-        Console.Out.WriteLine(uploadRequestString)
 
         Dim httpReq As HttpWebRequest = WebRequest.Create("https://api.imgur.com/3/upload")
         httpReq.Headers.Add("Authorization", "Client-ID 4f2b6d0841fd112")
