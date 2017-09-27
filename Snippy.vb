@@ -39,12 +39,14 @@ Public Class Snippy
 
     Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
         cb = True
+        ToolStripMenuItem2.Checked = True
         ToolStripMenuItem1.Checked = False
     End Sub
 
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
         cb = False
         ToolStripMenuItem2.Checked = False
+        ToolStripMenuItem1.Checked = True
     End Sub
 
     Private Sub ToolStripMenuItem4_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem4.Click
