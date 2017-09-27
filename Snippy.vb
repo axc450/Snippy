@@ -53,7 +53,7 @@ Public Class Snippy
 
     Private Sub ToolStripMenuItem3_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem3.Click
         Try
-            IO.File.Copy(Application.ExecutablePath, Environment.GetFolderPath(Environment.SpecialFolder.Startup) & "/Snippy.exe")
+            IO.File.Copy(Application.ExecutablePath, Environment.GetFolderPath(Environment.SpecialFolder.Startup) & "/Snippy.exe", True)
             MsgBox("Snippy will automatically start when you log on!", vbInformation)
         Catch ex As Exception
             MsgBox("Could not add Snippy to the startup programs!", vbCritical)
