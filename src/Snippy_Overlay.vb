@@ -1,5 +1,4 @@
 ﻿Public Class Snippy_Overlay
-
     Dim isDrawing As Boolean
     Dim beginX As Integer = 0
     Dim beginY As Integer = 0
@@ -8,6 +7,11 @@
     Dim b As SolidBrush = New SolidBrush(Color.Yellow)
     Dim p As Pen = New Pen(Color.Red, 3)
 
+    Public Sub New()
+        InitializeComponent()
+        Me.Size = SystemInformation.VirtualScreen.Size
+        Me.Location = SystemInformation.VirtualScreen.Location
+    End Sub
 
     Private Sub Snippy_Overlay_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
@@ -48,7 +52,10 @@
             H = beginY - endY
         End If
 
-        Snippy.takeScreenshot(X, Y, W, H)
+        Snippy.takeScreenshot(X + SystemInformation.VirtualScreen.X,
+                              Y + SystemInformation.VirtualScreen.Y,
+                              W,
+                              H)
     End Sub
 
     Private Sub Sinppy_Overaly_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint

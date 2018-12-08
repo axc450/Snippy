@@ -25,12 +25,13 @@ Public Class Snippy
             If (overlay.IsDisposed) Then
                 overlay = New Snippy_Overlay()
             End If
-            overlay.Show()
-                overlay.Focus()
-                overlay.BringToFront()
-            End If
 
-            MyBase.WndProc(m)
+            overlay.Show()
+            overlay.Focus()
+            overlay.BringToFront()
+        End If
+
+        MyBase.WndProc(m)
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
